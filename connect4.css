@@ -1,15 +1,11 @@
-/* game board table */
-:root {
-  --height: '';
-}
-
-#board td {
+* game board table */ #board td {
   width: 50px;
   height: 50px;
   border: solid 1px #666;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
+
 .piece {
   margin: 5px;
   width: 80%;
@@ -17,90 +13,12 @@
   border-radius: 50%;
 }
 
-#board {
-  position: relative;
-}
-
-.delete-game {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
-}
-
-.delete-game:hover {
-  background-image: url('https://www.drodd.com/images14/x16.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 70%;
-  background-color: rgba(153, 153, 153, 0.342);
-}
-
 /* column-top is table row of clickable areas for each column */
+
 #column-top td {
   border: dashed 1px lightgray;
 }
 
-#game-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 #column-top td:hover {
   background-color: gold;
-}
-
-.bounce-top {
-  animation: bounce-top 0.9s both;
-}
-
-@keyframes bounce-top {
-  0% {
-    transform: var(--height);
-    animation-timing-function: ease-in;
-    opacity: 1;
-  }
-
-  24% {
-    opacity: 1;
-  }
-
-  40% {
-    transform: translateY(-24px);
-    animation-timing-function: ease-in;
-  }
-
-  65% {
-    transform: translateY(-12px);
-    animation-timing-function: ease-in;
-  }
-
-  82% {
-    transform: translateY(-6px);
-    animation-timing-function: ease-in;
-  }
-
-  93% {
-    transform: translateY(-4px);
-    animation-timing-function: ease-in;
-  }
-
-  25%,
-  55%,
-  75%,
-  87% {
-    transform: translateY(0px);
-    animation-timing-function: ease-out;
-  }
-
-  100% {
-    transform: translateY(0px);
-    animation-timing-function: ease-out;
-    opacity: 1;
-  }
 }

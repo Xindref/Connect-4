@@ -6,23 +6,13 @@
 </head>
 
 <body>
-  <input id="player1-color" placeholder="Player 1 color">
-  <input id="player2-color" placeholder="Player 2 color">
-  <button id="start-game">Start Game</button>
-  <button id="clear-games">Clear Games</button>
-  <br>
-  <label for="board-height">Board Height:</label>
-  <input type="range" id="board-height" value="4" min="4" max="7"
-    oninput="document.getElementById('heightRangeValue').innerHTML = this.value">
-  <label id="heightRangeValue">4</label>
-  <br>
-  <label for="board-width">Board Width:</label>
-  <input type="range" id="board-width" value="4" min="4" max="6"
-    oninput="document.getElementById('widthRangeValue').innerHTML = this.value">
-  <label id="widthRangeValue">4</label>
-  <br>
-  <div id="game-container">
 
+  <input id="p1-color" placeholder="Player 1 color">
+  <input id="p2-color" placeholder="Player 2 color">
+  <button id="start-game">Start Game!</button>
+
+  <div id="game">
+    <table id="board"></table>
   </div>
 
   <script src="connect4.js"></script>
