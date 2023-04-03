@@ -1,24 +1,46 @@
 /* game board table */
 :root {
   --height: '';
+  --color: gold;
+}
+
+body {
+  background-color: rgb(168, 193, 204);
 }
 
 #board td {
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  background-image: url(C4BoardSection.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
 .piece {
+  position: relative;
   margin: 5px;
   width: 80%;
   height: 80%;
   border-radius: 50%;
+  z-index: -2;
+}
+
+.connect-4-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: multiply;
 }
 
 #board {
   position: relative;
+  border-spacing: 0;
+  border-collapse: collapse;
+  padding: 0px;
+  border-bottom: 8px solid blue;
+  z-index: 2;
 }
 
 .delete-game {
@@ -41,7 +63,9 @@
 
 /* column-top is table row of clickable areas for each column */
 #column-top td {
-  border: dashed 1px lightgray;
+  outline: dashed 2px rgb(241, 218, 116);
+  position: relative;
+  background-image: none;
 }
 
 #game-container {
@@ -52,11 +76,44 @@
 }
 
 #column-top td:hover {
-  background-color: gold;
+  background-color: var(--color);
+  background-image: url(/C4Piece.png);
+  background-size: 60%;
+  opacity: 80%;
 }
 
 .bounce-top {
   animation: bounce-top 0.9s both;
+}
+
+h1 {
+  text-align: center;
+  font-size: 60px;
+  margin: 2;
+  text-shadow: 2px 2px black;
+  color: gold;
+}
+
+#player-inputs {
+  position: relative;
+  margin: auto;
+  text-align: center;
+}
+
+#player-inputs input[type='text'] {
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 180px;
+  box-shadow: 2px 3px rgb(89, 133, 190);
+}
+
+button {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  height: 30px;
+  width: 100px;
+  box-shadow: 1px 2px rgb(110, 144, 189);
 }
 
 @keyframes bounce-top {

@@ -4,7 +4,8 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
-const CURRENT_GAMES = [];
+const CURRENT_GAME_BOARDS = [];
+const CURRENT_GAME_CLASSES = [];
 const COLORS = ['Green', 'Purple', 'Red', 'Yellow', 'Blue', 'Orange', 'Teal', 'Pink'];
 let gameCount = 1;
 
@@ -43,7 +44,7 @@ class Game {
     // create a game holder div
     const game = document.createElement('div');
     // add our game holder to current games array
-    CURRENT_GAMES.push(game);
+    CURRENT_GAME_BOARDS.push(game);
     // set the id of our holder to be unique by using a total count of games played
     game.setAttribute('id', `Game${gameCount++}`);
     // set our gameId so that we can reference it later
@@ -105,6 +106,12 @@ class Game {
     const currGame = document.querySelectorAll(`#${this.gameId} > #board`)[0];
     // select the destination for current piece we're placing in table
     const spot = currGame.querySelector(`#\\3${y}-${x}`);
+    // add image for Connect 4 piece
+    let img = document.createElement('img');
+    img.classList.add('connect-4-image');
+    img.src = '/C4Piece.png'
+    img.style.rotate = Math.floor(Math.random() * 360) + 'deg';
+    piece.append(img);
     // add piece to the table
     spot.append(piece);
     // add class for our bouncing animation
@@ -179,6 +186,9 @@ class Game {
   // switches players inside the players array assigned to this instance
   switchPlayers() {
     this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
+    if (this.currPlayer) {
+      document.documentElement.style.setProperty('--color', this.currPlayer.color);
+    }
   }
 
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -216,10 +226,11 @@ class Game {
   // this deletes the current game
   deleteGame(game) {
     if (this.gameOver) {
-      // remove currGame from the CURRENT_GAMES array
-      const currGame = CURRENT_GAMES.indexOf(this);
-      CURRENT_GAMES.splice(currGame, 1);
+      // remove currGame from the CURRENT_GAME_BOARDS array
+      const currGame = CURRENT_GAME_BOARDS.indexOf(this);
+      CURRENT_GAME_BOARDS.splice(currGame, 1);
       game.remove();
+      CURRENT_GAME_CLASSES.splice(CURRENT_GAME_CLASSES.indexOf(this), 1);
     }
   }
 }
@@ -269,16 +280,34 @@ document.getElementById('start-game').addEventListener('click', () => {
   let boardHeight = document.getElementById('board-height').value;
   let boardWidth = document.getElementById('board-width').value;
   // make our new game with players and our dimmensions from input
-  new Game(player1, player2, boardHeight, boardWidth);
+  document.documentElement.style.setProperty('--color', player1.color)
+  let newGame = new Game(player1, player2, boardHeight, boardWidth);
+  CURRENT_GAME_CLASSES.push(newGame);
+  document.getElementById(newGame.gameId).addEventListener('mouseenter', function (event) {
+    if (CURRENT_GAME_CLASSES[CURRENT_GAME_CLASSES.indexOf(newGame)].currPlayer) {
+      document.documentElement.style.setProperty('--color', CURRENT_GAME_CLASSES[CURRENT_GAME_CLASSES.indexOf(newGame)].currPlayer.color);
+    } else {
+      document.documentElement.style.setProperty('--color', CURRENT_GAME_CLASSES[CURRENT_GAME_CLASSES.indexOf(newGame)].player1.color)
+    }
+  })
 });
 
 // this gets our clear button, and adds a click event listener to remove all
-// games in the CURRENT_GAMES array
+// games in the CURRENT_GAME_BOARDS array
 document.getElementById(`clear-games`).addEventListener('click', () => {
-  CURRENT_GAMES.forEach(game => {
+  CURRENT_GAME_BOARDS.forEach(game => {
     // deletes the HTML elements
     game.remove();
   });
   // sets the array back to 0
-  CURRENT_GAMES.length = 0;
+  CURRENT_GAME_BOARDS.length = 0;
+  CURRENT_GAME_CLASSES.length = 0;
 });
+
+function showPlayerPiecePreview(row) {
+  let img = document.createElement('img');
+  img.classList.add('connect-4-image-preview');
+  img.src = '/C4Piece.png'
+  img.style.rotate = Math.floor(Math.random() * 360) + 'deg';
+  row.target.append(img);
+}
