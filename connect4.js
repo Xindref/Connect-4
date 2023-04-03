@@ -109,7 +109,7 @@ class Game {
     // add image for Connect 4 piece
     let img = document.createElement('img');
     img.classList.add('connect-4-image');
-    img.src = '/C4Piece.png'
+    img.src = '../C4Piece.png'
     img.style.rotate = Math.floor(Math.random() * 360) + 'deg';
     piece.append(img);
     // add piece to the table
