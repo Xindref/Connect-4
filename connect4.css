@@ -11,7 +11,7 @@ body {
 #board td {
   width: 50px;
   height: 50px;
-  background-image: url(https://imgur.com/FCzSp2o);
+  background-image: url('https://imgur.com/FCzSp2o.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -77,7 +77,7 @@ body {
 
 #column-top td:hover {
   background-color: var(--color);
-  background-image: url(https://imgur.com/UJ8sRT4);
+  background-image: url('https://imgur.com/UJ8sRT4.png');
   background-size: 60%;
   opacity: 80%;
 }
