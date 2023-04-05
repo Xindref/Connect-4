@@ -106,13 +106,6 @@ h1 {
   text-align: center;
 }
 
-#player-inputs input[type='text'] {
-  border-radius: 4px;
-  margin-bottom: 10px;
-  width: 180px;
-  box-shadow: 2px 3px rgb(89, 133, 190);
-}
-
 button {
   margin-top: 15px;
   margin-bottom: 15px;
@@ -306,5 +299,123 @@ button:hover {
     transform: translateY(0px);
     animation-timing-function: ease-out;
     opacity: 1;
+  }
+}
+
+@media (max-width: 1000px) {
+  h1 {
+    font-size: 100px;
+  }
+
+  #p2-label,
+  #p1-label {
+    position: relative;
+    font-size: 40px;
+    bottom: 20px;
+  }
+
+  .player-input-labels {
+    font-size: 40px;
+  }
+
+  #p1-background-color,
+  #p2-background-color,
+  #p1-piece-preview,
+  #p2-piece-preview,
+  #p1-color-picker,
+  #p2-color-picker {
+    width: 100px;
+    height: 100px;
+  }
+
+  #board-height,
+  #board-width {
+    margin-top: 20px;
+    height: 20px;
+    width: 350px;
+  }
+
+  #board-height::-webkit-slider-thumb,
+  #board-width::-webkit-slider-thumb {
+    height: 35px;
+    width: 35px;
+  }
+
+  button {
+    height: 80px;
+    width: 280px;
+    font-size: 22px;
+  }
+
+  #board td {
+    width: 80px;
+    height: 80px;
+  }
+
+  .piece {
+    left: 3.1px;
+  }
+
+  #board {
+    border-bottom: 15px solid blue;
+  }
+}
+
+@media (max-width: 670px) {
+  h1 {
+    font-size: 70px;
+  }
+
+  #p2-label,
+  #p1-label {
+    position: relative;
+    font-size: 40px;
+    bottom: 10px;
+  }
+
+  .player-input-labels {
+    font-size: 30px;
+  }
+
+  #p1-background-color,
+  #p2-background-color,
+  #p1-piece-preview,
+  #p2-piece-preview,
+  #p1-color-picker,
+  #p2-color-picker {
+    width: 80px;
+    height: 80px;
+  }
+
+  #board-height,
+  #board-width {
+    margin-top: 20px;
+    height: 15px;
+    width: 320px;
+  }
+
+  #board-height::-webkit-slider-thumb,
+  #board-width::-webkit-slider-thumb {
+    height: 35px;
+    width: 35px;
+  }
+
+  button {
+    height: 60px;
+    width: 180px;
+    font-size: 14px;
+  }
+
+  #board td {
+    width: 100px;
+    height: 100px;
+  }
+
+  .piece {
+    left: 5px;
+  }
+
+  #board {
+    border-bottom: 15px solid blue;
   }
 }
