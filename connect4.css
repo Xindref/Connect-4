@@ -2,6 +2,8 @@
 :root {
   --height: '';
   --color: rgb(212, 182, 11);
+  --p1StartColor: white;
+  --p2StartColor: white;
 }
 
 body {
@@ -11,7 +13,8 @@ body {
 #board td {
   width: 50px;
   height: 50px;
-  background-image: url('https://imgur.com/FCzSp2o.png');
+  padding: 0px;
+  background-image: url('/images/C4BoardSection.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -59,6 +62,7 @@ body {
   background-repeat: no-repeat;
   opacity: 70%;
   background-color: rgba(153, 153, 153, 0.342);
+  cursor: pointer;
 }
 
 /* column-top is table row of clickable areas for each column */
@@ -77,9 +81,10 @@ body {
 
 #column-top td:hover {
   background-color: var(--color);
-  background-image: url('https://imgur.com/UJ8sRT4.png');
+  background-image: url('/images/C4Piece.png');
   background-size: 60%;
   opacity: 80%;
+  cursor: pointer;
 }
 
 .bounce-top {
@@ -89,7 +94,8 @@ body {
 h1 {
   text-align: center;
   font-size: 60px;
-  margin: 2;
+  font-family: cursive;
+  margin: 0;
   text-shadow: 2px 2px black;
   color: gold;
 }
@@ -112,8 +118,149 @@ button {
   margin-bottom: 15px;
   border-radius: 4px;
   height: 30px;
-  width: 100px;
-  box-shadow: 1px 2px rgb(110, 144, 189);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: rgb(250, 225, 0);
+  box-shadow: 1px 2px black;
+}
+
+button:hover {
+  background-color: rgb(255, 164, 27);
+  box-shadow: 1px 3px black;
+  scale: 1.02;
+  transition: .2s;
+  cursor: pointer;
+}
+
+#board-height,
+#board-width {
+  position: relative;
+  appearance: none;
+  background-color: rgb(201, 146, 64);
+  height: 5px;
+  bottom: 3px;
+  border-radius: 50px;
+}
+
+#board-height::-webkit-slider-thumb,
+#board-width::-webkit-slider-thumb {
+  position: relative;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  bottom: 1px;
+  border-radius: 50%;
+  background-color: rgb(255, 238, 0);
+}
+
+#board-height::-webkit-slider-thumb:hover,
+#board-width::-webkit-slider-thumb:hover {
+  background-color: rgb(255, 174, 0);
+  scale: 1.25;
+  cursor: pointer;
+}
+
+#p1-color-picker,
+#p2-color-picker {
+  position: absolute;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  left: 0px;
+  top: 20px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#p1-color-container,
+#p2-color-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 25px;
+}
+
+#p1-color-container:hover,
+#p2-color-container:hover {
+  transition: .1s;
+  transform: scale(1.08);
+  top: -1.05px;
+}
+
+#p1-color-container:hover> :nth-child(2),
+#p2-color-container:hover> :nth-child(2) {
+  animation-name: rotate-360;
+  animation-timing-function: linear;
+  animation-duration: .4s;
+  animation-direction: alternate;
+  pointer-events: none;
+}
+
+#p2-color-container {
+  margin-left: 20px;
+}
+
+#p1-background-color,
+#p2-background-color {
+  position: absolute;
+  top: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+#p1-background-color {
+  background-color: var(--p1StartColor);
+}
+
+#p2-background-color {
+  background-color: var(--p2StartColor);
+}
+
+#p1-piece-preview,
+#p2-piece-preview {
+  position: inherit;
+  height: 50px;
+  width: 50px;
+  top: 20px;
+  mix-blend-mode: multiply;
+}
+
+#p1-label,
+#p2-label {
+  color: rgb(255, 165, 104);
+}
+
+#p2-label {
+  position: relative;
+  left: 18px;
+}
+
+.player-input-labels {
+  font-size: 18px;
+  color: rgb(104, 225, 255);
+  text-shadow: 2px 2px black;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+@keyframes rotate-360 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-15deg);
+  }
+
+  50% {
+    transform: rotate(15deg);
+  }
+
+  75% {
+    transform: rotate(-15deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @keyframes bounce-top {

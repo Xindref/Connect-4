@@ -4,14 +4,14 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
-const CURRENT_GAME_BOARDS = [];
-const CURRENT_GAME_CLASSES = [];
-const COLORS = ['Green', 'Purple', 'Red', 'Yellow', 'Blue', 'Orange', 'Teal', 'Pink'];
+const CURRENT_GAMES = [];
+const COLORS = ['#00FF00', '#B45AFF', '#FF0000', '#FFFF00', '#3C78FF', '#FF9600', '#00FFFF', '#FF78DC'];
 let gameCount = 1;
 
 class Player {
-  constructor(color) {
+  constructor(color, name) {
     this.color = color;
+    this.name = name;
   }
 }
 
@@ -24,6 +24,7 @@ class Game {
     this.board = []; // array of rows, each row is array of cells  (board[y][x])
     this.gameId = '';
     this.gameOver = false;
+    this.boardElement = '';
     this.makeBoard();
     this.makeHtmlBoard();
   }
@@ -43,8 +44,6 @@ class Game {
   makeHtmlBoard() {
     // create a game holder div
     const game = document.createElement('div');
-    // add our game holder to current games array
-    CURRENT_GAME_BOARDS.push(game);
     // set the id of our holder to be unique by using a total count of games played
     game.setAttribute('id', `Game${gameCount++}`);
     // set our gameId so that we can reference it later
@@ -102,14 +101,14 @@ class Game {
     const piece = document.createElement('div');
     piece.classList.add('piece');
     piece.style.backgroundColor = this.currPlayer.color;
-    // select the input for columns where we're adding pieces
-    const currGame = document.querySelectorAll(`#${this.gameId} > #board`)[0];
+    // set our boardElement to be this game's board element
+    this.boardElement = document.querySelector(`#${this.gameId} > #board`);
     // select the destination for current piece we're placing in table
-    const spot = currGame.querySelector(`#\\3${y}-${x}`);
+    const spot = this.boardElement.querySelector(`#\\3${y}-${x}`);
     // add image for Connect 4 piece
     let img = document.createElement('img');
     img.classList.add('connect-4-image');
-    img.src = 'https://imgur.com/UJ8sRT4.png'
+    img.src = '/images/C4Piece.png'
     img.style.rotate = Math.floor(Math.random() * 360) + 'deg';
     piece.append(img);
     // add piece to the table
@@ -125,8 +124,8 @@ class Game {
     // create a div to hold our X image to clear a specific game
     const xImage = document.createElement('div');
     xImage.classList.add('delete-game');
-    document.querySelector(`#${this.gameId} #board`).append(xImage);
-    xImage.addEventListener('click', this.deleteGame.bind(this, document.querySelector(`#${this.gameId}`)));
+    this.boardElement.append(xImage);
+    xImage.addEventListener('click', this.deleteGame.bind(this, this.boardElement.parentElement));
     // alert for who wins the game
     alert(msg);
   }
@@ -149,7 +148,7 @@ class Game {
 
     // check for win
     if (this.checkForWin()) {
-      return this.endGame(`${this.currPlayer.color} player won!`);
+      return this.endGame(`${this.currPlayer.name} won!`);
     }
 
     // check for tie
@@ -226,11 +225,9 @@ class Game {
   // this deletes the current game
   deleteGame(game) {
     if (this.gameOver) {
-      // remove currGame from the CURRENT_GAME_BOARDS array
-      const currGame = CURRENT_GAME_BOARDS.indexOf(this);
-      CURRENT_GAME_BOARDS.splice(currGame, 1);
       game.remove();
-      CURRENT_GAME_CLASSES.splice(CURRENT_GAME_CLASSES.indexOf(this), 1);
+      // remove game instance from the CURRENT_GAMES array
+      CURRENT_GAMES.splice(CURRENT_GAMES.indexOf(this), 1);
     }
   }
 }
@@ -256,58 +253,57 @@ function shuffle(array) {
 // gets the button for Start Game and adds a click event listener
 document.getElementById('start-game').addEventListener('click', () => {
   // instantiate both our Player Objects for this board
-  let player1 = new Player();
-  let player2 = new Player();
-  // shuffles our array of COLORS to randomize them
-  shuffle(COLORS);
-  // check to see if a color was entered for Player 1, if so then set it
-  if (document.getElementById('player1-color').value !== '') {
-    player1.color = document.getElementById('player1-color').value;
-  }
-  // if input value is empty, then choose the first element of our shuffled COLORS
-  else if (document.getElementById('player1-color').value === '') {
-    player1.color = COLORS[0];
-  }
-  // check to see if a color was entered for Player 2, if so then set it
-  if (document.getElementById('player2-color').value !== '') {
-    player2.color = document.getElementById('player2-color').value;
-  }
-  // if input value is empty, then choose the second element of our shuffled COLORS
-  else if (document.getElementById('player2-color').value === '') {
-    player2.color = COLORS[1];
-  }
+  let player1 = new Player(getComputedStyle(document.documentElement).getPropertyValue('--p1StartColor'), 'Player 1');
+  let player2 = new Player(getComputedStyle(document.documentElement).getPropertyValue('--p2StartColor'), 'Player 2');
   // set our board dimmensions to be the value of the range sliders
   let boardHeight = document.getElementById('board-height').value;
   let boardWidth = document.getElementById('board-width').value;
-  // make our new game with players and our dimmensions from input
+  // set initial color for P1 on a given game
   document.documentElement.style.setProperty('--color', player1.color)
+  // make our new game with players and our dimmensions from input
   let newGame = new Game(player1, player2, boardHeight, boardWidth);
-  CURRENT_GAME_CLASSES.push(newGame);
+  CURRENT_GAMES.push(newGame);
   document.getElementById(newGame.gameId).addEventListener('mouseenter', function (event) {
-    if (CURRENT_GAME_CLASSES[CURRENT_GAME_CLASSES.indexOf(newGame)].currPlayer) {
-      document.documentElement.style.setProperty('--color', CURRENT_GAME_CLASSES[CURRENT_GAME_CLASSES.indexOf(newGame)].currPlayer.color);
+    if (CURRENT_GAMES[CURRENT_GAMES.indexOf(newGame)].currPlayer) {
+      document.documentElement.style.setProperty('--color', CURRENT_GAMES[CURRENT_GAMES.indexOf(newGame)].currPlayer.color);
     } else {
-      document.documentElement.style.setProperty('--color', CURRENT_GAME_CLASSES[CURRENT_GAME_CLASSES.indexOf(newGame)].player1.color)
+      document.documentElement.style.setProperty('--color', CURRENT_GAMES[CURRENT_GAMES.indexOf(newGame)].player1.color)
     }
   })
 });
 
-// this gets our clear button, and adds a click event listener to remove all
-// games in the CURRENT_GAME_BOARDS array
-document.getElementById(`clear-games`).addEventListener('click', () => {
-  CURRENT_GAME_BOARDS.forEach(game => {
-    // deletes the HTML elements
-    game.remove();
-  });
-  // sets the array back to 0
-  CURRENT_GAME_BOARDS.length = 0;
-  CURRENT_GAME_CLASSES.length = 0;
+// this event listener deletes all games that are over
+document.getElementById(`clear-completed-games`).addEventListener('click', () => {
+  for (let i = CURRENT_GAMES.length - 1; i >= 0; i--) {
+    let game = CURRENT_GAMES[i];
+    if (game.gameOver) {
+      CURRENT_GAMES.splice(i, 1);
+      game.boardElement.parentElement.remove();
+    }
+  }
 });
 
-function showPlayerPiecePreview(row) {
-  let img = document.createElement('img');
-  img.classList.add('connect-4-image-preview');
-  img.src = 'https://imgur.com/UJ8sRT4.png'
-  img.style.rotate = Math.floor(Math.random() * 360) + 'deg';
-  row.target.append(img);
-}
+// this event listener deletes all games
+document.getElementById(`clear-all-games`).addEventListener('click', () => {
+  document.getElementById('game-container').innerHTML = '';
+  //sets the array back to 0
+  CURRENT_GAMES.length = 0;
+});
+
+document.getElementById('p1-color-picker').addEventListener('input', () => {
+  let newColor = document.getElementById('p1-color-picker').value;
+  document.documentElement.style.setProperty('--p1StartColor', newColor);
+})
+
+document.getElementById('p2-color-picker').addEventListener('input', () => {
+  let newColor = document.getElementById('p2-color-picker').value;
+  document.documentElement.style.setProperty('--p2StartColor', newColor);
+})
+
+document.addEventListener('DOMContentLoaded', function () {
+  shuffle(COLORS);
+  document.documentElement.style.setProperty('--p1StartColor', COLORS[0]);
+  document.getElementById('p1-color-picker').setAttribute('value', COLORS[0]);
+  document.documentElement.style.setProperty('--p2StartColor', COLORS[1]);
+  document.getElementById('p2-color-picker').setAttribute('value', COLORS[1]);
+})

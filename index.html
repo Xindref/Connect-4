@@ -8,21 +8,32 @@
 <body>
   <h1>Connect Four</h1>
   <section id="player-inputs">
-    <input id="player1-color" type="text" placeholder="Player 1 color">
-    <input id="player2-color" type="text" placeholder="Player 2 color">
+    <label class="player-input-labels" id="p1-label" for="player1-color">P1 :</label>
+    <div id="p1-color-container">
+      <div id="p1-background-color"></div>
+      <img id="p1-piece-preview" src="/images/C4Piece.png" alt="">
+      <input type="color" name="" id="p1-color-picker">
+    </div>
+    <label class="player-input-labels" id="p2-label" for="player2-color">P2 :</label>
+    <div id="p2-color-container">
+      <div id="p2-background-color"></div>
+      <img id="p2-piece-preview" src="/images/C4Piece.png" alt="">
+      <input type="color" name="" id="p2-color-picker">
+    </div>
     <br>
-    <label for="board-height">Board Height:</label>
+    <label class="player-input-labels" for="board-height">Board Height:</label>
     <input type="range" id="board-height" value="4" min="4" max="7"
       oninput="document.getElementById('heightRangeValue').innerHTML = this.value">
-    <label id="heightRangeValue">4</label>
+    <label class="player-input-labels" id="heightRangeValue">4</label>
     <br>
-    <label for="board-width">Board Width:</label>
+    <label class="player-input-labels" for="board-width">Board Width:</label>
     <input type="range" id="board-width" value="4" min="4" max="6"
       oninput="document.getElementById('widthRangeValue').innerHTML = this.value">
-    <label id="widthRangeValue">4</label>
+    <label class="player-input-labels" id="widthRangeValue">4</label>
     <br>
     <button id="start-game">Start Game</button>
-    <button id="clear-games">Clear Games</button>
+    <button id="clear-completed-games">Clear Completed Games</button>
+    <button id="clear-all-games">Clear All Games</button>
   </section>
   <br>
   <div id="game-container">
